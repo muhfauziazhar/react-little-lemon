@@ -1,9 +1,10 @@
 import * as React from 'react';
+import headerImg from '../assets/images/Asset 16@4x.png'
 
 const Header = () => {
   return (
     <header className="container">
-      <img src="./assets/images/Asset 16@4x.png" alt="Company Brand Logo" className="logo" />
+      <img src={headerImg} alt="Company Brand Logo" className="logo" />
     </header>
   );
 };

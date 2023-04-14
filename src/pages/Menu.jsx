@@ -23,12 +23,12 @@ const Menu = () => {
     <section id="menu" className="list-menu-wrapper">
       <h1 className="section-heading">Most Favorite Menu</h1>
       <div className="list-menu">
-        {listMenu.map((menu) => {
+        {listMenu.map((menu, index) => {
           return (
-            <article>
-              <img src="https://www.themealdb.com/images/media/meals/0jv5gx1661040802.jpg" alt="Fettuccine Alfredo" />
-              <h1>Fettuccine Alfredo</h1>
-              <p>An Italian pasta dish of fresh fettuccine tossed with butter and Parmesan cheese.</p>
+            <article key={index}>
+              <img src={menu.imageUrl} alt={menu.title} />
+              <h1>{menu.title}</h1>
+              <p>{menu.description}</p>
             </article>
           );
         })}

@@ -1,8 +1,11 @@
 import * as React from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import Spinner from '../components/Spinner';
+import emailjs from "@emailjs/browser";
 
 const Reservation = () => {
+  let form = React.useRef()
   const input = {
     name: '',
     adult: '',
@@ -30,10 +33,17 @@ const Reservation = () => {
   const handleSubmit = (values, { resetForm }) => {
     setIsLoading(true);
     setTimeout(() => {
-      alert(`Thank you for your message, ${values.name}! Your message: ${values.message}`);
+      emailjs.sendForm("service_3k424cg", "template_mpi6ssr", form.current, "vgm_gMmOPaS8jjn4g").then(
+        () => {
+          alert(`Thank you for your reservation, ${values.name}! Kindly check your email for the reservation details.`);
+        },
+        (error) => {
+            alert(error.text);
+        }
+    );
       setIsLoading(false);
       resetForm({ values: '' });
-    }, 2000);
+    }, 1000);
   };
 
   const formik = useFormik({
@@ -47,7 +57,7 @@ const Reservation = () => {
   return (
     <section id="about" className="reservation-wrapper w-4/5 xl:w-full mx-auto">
       <h1 className="section-heading">Table Reservation</h1>
-      <form onSubmit={formik.handleSubmit} autoComplete="off">
+      <form onSubmit={formik.handleSubmit} ref={form} autoComplete="off">
         <div className="grid grid-cols-1 mb-2">
           <div>
             <input
@@ -181,10 +191,11 @@ const Reservation = () => {
         <div className="flex w-full">
           <button
             type="submit"
+            data-testid="reserve"
             style={{ backgroundColor: '#4c5c54' }}
-            className="py-2 px-4 flex justify-center hover:scale-110  text-white w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md  rounded-lg "
+            className="py-2 px-4 flex justify-center hover:scale-105 text-white w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md  rounded-lg "
           >
-            {isLoading && <Spinner />}
+            {isLoading && <div data-testid='spinner'><Spinner /></div>}
             Send
           </button>
         </div>
